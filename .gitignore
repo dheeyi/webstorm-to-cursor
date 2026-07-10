@@ -1,0 +1,5 @@
+# Estado por-máquina — nunca versionar
+**/state.vscdb
+**/state.vscdb.backup
+**/*.bak
+.DS_Store

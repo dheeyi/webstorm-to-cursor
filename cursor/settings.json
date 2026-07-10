@@ -1,0 +1,33 @@
+{
+  // ---- Fuente / editor (look tipo WebStorm) ----
+  "editor.fontFamily": "'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontSize": 14,
+  "editor.lineHeight": 1.5,
+  "editor.fontLigatures": true,
+  "editor.cursorBlinking": "solid",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.renderWhitespace": "boundary",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.stickyScroll.enabled": true,
+  "editor.minimap.enabled": false,
+
+  // ---- Autosave (WebStorm guarda solo) ----
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  // ---- Workbench ----
+  "workbench.colorTheme": "Default Dark Modern",
+  "workbench.list.smoothScrolling": true,
+  "workbench.editor.showTabs": "multiple",
+  "explorer.confirmDragAndDrop": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+
+  // ---- No sobrescribir formato al guardar por defecto ----
+  "editor.formatOnSave": false,
+
+  // Ver README: para el look Darcula real instalar un tema JetBrains + la fuente JetBrains Mono.
+  "window.autoDetectColorScheme": false
+}

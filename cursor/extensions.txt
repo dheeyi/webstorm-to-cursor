@@ -1,0 +1,6 @@
+# Extensiones de Cursor — una por línea (las líneas con # se ignoran).
+# Regenerar automáticamente con: ./export.sh
+# Instalar en una máquina nueva con: ./install.sh
+
+# Atajos estilo WebStorm/IntelliJ:
+k--kato.intellij-idea-keybindings
