@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# install.sh — aplica la config del repo A ESTA Mac.
-#   - Crea symlinks: settings.json, keybindings.json, snippets/ -> repo
-#   - Reinstala las extensiones listadas en extensions.txt
-# Idempotente: se puede correr las veces que quieras.
+# install.sh — applies the repo config TO THIS Mac.
+#   - Creates symlinks: settings.json, keybindings.json, snippets/ -> repo
+#   - Installs the extensions listed in extensions.txt
+# Idempotent: safe to run as many times as you want.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 USER_DIR="$HOME/Library/Application Support/Cursor/User"
 
-# Localizar el CLI de Cursor (PATH o dentro del .app)
+# Locate the Cursor CLI (PATH or inside the .app)
 CURSOR_BIN=""
 if command -v cursor >/dev/null 2>&1; then
   CURSOR_BIN="cursor"
@@ -30,21 +30,21 @@ link() {
   echo "    link:   $dst -> $src"
 }
 
-echo "==> Symlinks de config"
+echo "==> Config symlinks"
 link "$REPO_DIR/settings.json"    "$USER_DIR/settings.json"
 link "$REPO_DIR/keybindings.json" "$USER_DIR/keybindings.json"
 link "$REPO_DIR/snippets"         "$USER_DIR/snippets"
 
-echo "==> Extensiones"
+echo "==> Extensions"
 if [ -z "$CURSOR_BIN" ]; then
-  echo "    (!) No encontré el CLI 'cursor'. En Cursor: Cmd+Shift+P ->"
-  echo "        'Shell Command: Install cursor command in PATH', luego re-corré este script."
+  echo "    (!) Couldn't find the 'cursor' CLI. In Cursor: Cmd+Shift+P ->"
+  echo "        'Shell Command: Install cursor command in PATH', then re-run this script."
 else
   grep -vE '^\s*#|^\s*$' "$REPO_DIR/extensions.txt" | while read -r ext; do
     echo "    install: $ext"
     "$CURSOR_BIN" --install-extension "$ext" --force >/dev/null 2>&1 \
-      && echo "      ok" || echo "      (falló, revisar id)"
+      && echo "      ok" || echo "      (failed, check the id)"
   done
 fi
 
-echo "==> Listo. Reiniciá Cursor para que tome todo."
+echo "==> Done. Restart Cursor to apply everything."

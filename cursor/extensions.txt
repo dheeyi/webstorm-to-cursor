@@ -1,6 +1,29 @@
-# Extensiones de Cursor — una por línea (las líneas con # se ignoran).
-# Regenerar automáticamente con: ./export.sh
-# Instalar en una máquina nueva con: ./install.sh
+# Cursor extensions — one per line (lines starting with # are ignored).
+# Regenerate automatically with: ./export.sh
+# Install on a new machine with: ./install.sh
 
-# Atajos estilo WebStorm/IntelliJ:
+# WebStorm/IntelliJ-style keybindings:
 k--kato.intellij-idea-keybindings
+
+# Appearance (WebStorm New UI look + Material icons):
+septwong.vscode-webstorm-theme
+pkief.material-icon-theme
+
+# WebStorm parity (linting, formatting, git, inline errors):
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+eamodio.gitlens
+usernamehw.errorlens
+
+# WebStorm-style functionality (TODOs, spell check, visual git history):
+gruntfuggly.todo-tree
+streetsidesoftware.code-spell-checker
+mhutchie.git-graph
+
+# Utilities (.gitignore templates, partial diff, YAML support):
+codezombiech.gitignore
+ryu1kn.partial-diff
+redhat.vscode-yaml
+
+# Command buttons in the status bar (WebStorm External Tools style):
+kubrickcode.quick-command-buttons

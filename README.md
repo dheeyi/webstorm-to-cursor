@@ -1,41 +1,139 @@
-# dotfiles
+# webstorm-to-cursor
 
-Sincronización de configuración de **Cursor** entre varias Macs, sin backups manuales.
-El repo es la **fuente de verdad**: en cada máquina la config vive como *symlink* al repo,
-así que editás en Cursor → se edita el archivo del repo → `git push` → en las otras `git pull`.
+> Make **Cursor** feel like **WebStorm** — keybindings, theme, git blame, collapsible diffs,
+> run buttons — and keep it in sync across your Macs. macOS-focused.
 
-## Qué se sincroniza
-- `cursor/settings.json` — tema, fuentes, autosave (look estilo WebStorm)
-- `cursor/keybindings.json` — tus overrides de atajos
-- `cursor/snippets/` — snippets propios
-- `cursor/extensions.txt` — lista de extensiones (se reinstalan, no se versiona el binario)
+Cursor has **no built-in settings sync** (it doesn't use Microsoft's Settings Sync server), so
+this is a tiny dotfiles setup that does two things:
 
-No se sincroniza `state.vscdb` (SQLite de estado por-máquina) a propósito.
+1. **Syncs** your Cursor config across machines via symlinks (edit in Cursor → it's in the repo → `git push` → `git pull` elsewhere).
+2. Ships an **opinionated, WebStorm-like setup** you can install in a couple of minutes.
 
-## Primer arranque (una sola vez, en tu PC MEJOR configurada)
+Coming from JetBrains? You'll feel at home without giving up Cursor's AI.
+
+## What you get
+
+- **WebStorm/IntelliJ keybindings** (via the IntelliJ Keybindings extension) + custom binds:
+  toggle terminal, fold/unfold, find next/prev, search-result nav, **git blame** (WebStorm "Annotate").
+- **WebStorm New UI theme** + **JetBrains Mono** font + **Material icons**.
+- **Prettier + ESLint format-on-save** (WebStorm's "Actions on Save").
+- **Collapsible unchanged regions** in diffs (WebStorm's "Collapse unchanged fragments").
+- **Type-to-search** in trees, permanent tabs, **auto-update imports** on file move.
+- **Git blame gutter** via GitLens; **Git Graph** for visual history.
+- **Per-project tasks + status-bar run buttons** (WebStorm's "External Tools / Run Configurations").
+- A **WebStorm → Cursor keyboard cheat-sheet**: [`docs/cursor-webstorm-keymap.md`](./docs/cursor-webstorm-keymap.md).
+
+## Requirements
+
+macOS · [Cursor](https://cursor.com) · [Homebrew](https://brew.sh) (for the font) · the `cursor`
+CLI on your `PATH` (in Cursor: `Cmd+Shift+P` → *"Shell Command: Install cursor command in PATH"*).
+
+## Quick start
+
 ```bash
-cd ~/dotfiles/cursor
-./export.sh                 # copia tu config viva al repo + genera extensions.txt
+git clone https://github.com/dheeyi/webstorm-to-cursor.git ~/dotfiles
 cd ~/dotfiles
-git add -A && git commit -m "seed cursor config" && git push
+
+brew install --cask font-jetbrains-mono   # the font
+./cursor/install.sh                        # symlink config + install extensions
+
+# Per project (tasks + run buttons). The template targets React Native — adapt for your stack:
+./apply-vscode.sh /path/to/your/project
 ```
 
-## En cada PC nueva
-```bash
-git clone <tu-repo> ~/dotfiles
-cd ~/dotfiles/cursor
-./install.sh                # symlinks repo -> máquina + reinstala extensiones
+Restart Cursor and you're done.
+
+> `install.sh` backs up any existing config to `*.bak` before symlinking — nothing is lost.
+
+## What's inside
+
 ```
-> Si `install.sh` avisa que falta el CLI `cursor`: en Cursor abrí `Cmd+Shift+P`
-> → *"Shell Command: Install cursor command in PATH"*, y re-corré el script.
+.
+├── cursor/                       # global Cursor config (symlinked to ~/Library/.../Cursor/User)
+│   ├── settings.json             # theme, font, format-on-save, WebStorm-like behavior
+│   ├── keybindings.json          # custom binds on top of the IntelliJ keymap
+│   ├── extensions.txt            # extensions to install (one id per line)
+│   ├── install.sh                # symlinks config + installs extensions
+│   └── export.sh                 # seed the repo from a machine's live config
+├── vscode-template/              # per-project .vscode (tasks + run buttons) — React Native example
+├── apply-vscode.sh               # copy the template into any project (won't overwrite)
+└── docs/
+    └── cursor-webstorm-keymap.md # WebStorm → Cursor keyboard cheat-sheet
+```
 
-## Flujo diario
-1. Editás settings/atajos en Cursor (como es symlink, cambia el archivo del repo).
-2. `cd ~/dotfiles && git add -A && git commit -m "..." && git push`
-3. En las otras Macs: `git pull` (y reiniciar Cursor si tocaste extensiones/tema).
+`state.vscdb` (Cursor's per-machine SQLite state) is intentionally **not** synced.
 
-## Look estilo WebStorm (Darcula)
-- Instalá la fuente **JetBrains Mono** (ya referenciada en `settings.json`).
-- Para el tema Darcula real, instalá un tema JetBrains del marketplace y poné su nombre
-  en `workbench.colorTheme` dentro de `settings.json`.
-- Los atajos los da la extensión `k--kato.intellij-idea-keybindings` (en `extensions.txt`).
+## Customize
+
+- **Theme** — set `workbench.colorTheme` in `cursor/settings.json`. The WebStorm theme ships several
+  variants: `WebStorm New Darcula`, `WebStorm Darker`, `WebStorm Dark`, `WebStorm Light`.
+- **Extensions** — add/remove ids in `cursor/extensions.txt`, then re-run `install.sh`.
+- **Keybindings** — `cursor/keybindings.json`.
+
+### Change the run commands (tasks + buttons)
+
+The run buttons and tasks just mirror the scripts in each project. To change them:
+
+1. Open the project's tasks file: `Cmd+Shift+P` → **"Tasks: Open User Tasks"**, or just open
+   `.vscode/tasks.json` in the file tree.
+2. Edit the `command` of a task (e.g. change `npm run ios` to `yarn ios`), or add a new one:
+   ```jsonc
+   { "label": "Storybook", "type": "shell", "command": "npm run storybook" }
+   ```
+3. Save. Run it with `Cmd+Shift+P` → **"Tasks: Run Task"**.
+
+To change the **status-bar buttons**, edit `quickCommandButtons.buttons` in `.vscode/settings.json`
+(name, `command`, `color`, `shortcut`). The defaults live in `vscode-template/` — edit there to
+change the starting point for every new project, then apply with `./apply-vscode.sh <project>`.
+
+## Keyboard shortcuts (macOS)
+
+WebStorm/IntelliJ keymap (via the IntelliJ Keybindings extension) plus the custom binds this repo
+adds. A few highlights below — the **full reference** (editing, refactor, search, custom binds, AI,
+and the Search Everywhere prefixes) lives in
+**[docs/cursor-webstorm-keymap.md](./docs/cursor-webstorm-keymap.md)**.
+
+Legend: `Cmd` ⌘ · `Opt` ⌥ · `Shift` ⇧ · `Ctrl` ⌃
+
+| Action | Shortcut |
+|---|---|
+| Search Everywhere (files + content + symbols) | `Shift` `Shift` |
+| Find Action / command palette | `Cmd+Shift+A` / `Cmd+Shift+P` |
+| Go to definition / implementation | `Cmd+B` / `Opt+Cmd+B` |
+| Reformat code (also on save) | `Cmd+Opt+L` |
+| Quick fix / intentions | `Opt+Enter` |
+| Rename | `Shift+F6` |
+| Git blame whole file (≈ Annotate) | `Cmd+Shift+B` |
+| Toggle terminal | `Opt+F12` |
+
+→ **[Open the full cheat-sheet](./docs/cursor-webstorm-keymap.md)** for every shortcut.
+
+## Sync across machines
+
+1. Edit settings/keybindings in Cursor (they're symlinks, so the repo changes).
+2. `git add -A && git commit -m "..." && git push`
+3. On the other Mac: `git pull` (restart Cursor if you touched extensions/theme).
+
+## What Cursor can't replicate (honest limits)
+
+Cursor is a VS Code fork, so a few WebStorm things have no equivalent — no setup fixes these:
+
+- **Search Everywhere for actions/settings** (code search *is* unified via double-`Shift`; actions live in the Command Palette `>`).
+- **Deep JetBrains refactors** (basic rename/extract are covered).
+- **WebStorm's exact window structure** (toolbars, tool windows).
+
+## Credits
+
+Built on these extensions — thanks to their authors:
+`k--kato.intellij-idea-keybindings` · `SeptWong.vscode-webstorm-theme` · `PKief.material-icon-theme` ·
+`esbenp.prettier-vscode` · `dbaeumer.vscode-eslint` · `eamodio.gitlens` · `mhutchie.git-graph` ·
+`usernamehw.errorlens` · `Gruntfuggly.todo-tree` · `KubrickCode.quick-command-buttons`.
+
+## Contributing
+
+macOS-focused for now. PRs adding Windows/Linux paths (config lives in `%APPDATA%\Cursor\User`
+and `~/.config/Cursor/User`) are very welcome.
+
+## License
+
+[MIT](./LICENSE).

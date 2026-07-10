@@ -1,5 +1,25 @@
-// El grueso de los atajos de WebStorm los aporta la extensión
-// "k--kato.intellij-idea-keybindings" (se instala vía extensions.txt).
-// Acá van SOLO tus overrides propios encima de esa extensión.
+// Custom overrides on top of the "k--kato.intellij-idea-keybindings" extension.
+// Only what the extension doesn't cover well, with WebStorm-style shortcuts.
 [
+  // Toggle terminal (WebStorm: Alt+F12)
+  { "key": "alt+f12", "command": "workbench.action.terminal.toggleTerminal" },
+
+  // Fold / unfold the WHOLE file (WebStorm: Cmd+Shift+Minus / Cmd+Shift+Plus)
+  { "key": "shift+cmd+-", "command": "editor.foldAll", "when": "editorTextFocus" },
+  { "key": "shift+cmd+=", "command": "editor.unfoldAll", "when": "editorTextFocus" },
+
+  // Fold / unfold recursively from the cursor (WebStorm: Cmd+Alt+Minus / Cmd+Alt+Plus)
+  { "key": "alt+cmd+-", "command": "editor.foldRecursively", "when": "editorTextFocus" },
+  { "key": "alt+cmd+=", "command": "editor.unfoldRecursively", "when": "editorTextFocus" },
+
+  // Find next / previous match (WebStorm: F3 / Shift+F3)
+  { "key": "f3", "command": "editor.action.nextMatchFindAction", "when": "editorFocus" },
+  { "key": "shift+f3", "command": "editor.action.previousMatchFindAction", "when": "editorFocus" },
+
+  // Navigate search-panel results (WebStorm: F4 / Shift+F4)
+  { "key": "f4", "command": "search.action.focusNextSearchResult" },
+  { "key": "shift+f4", "command": "search.action.focusPreviousSearchResult" },
+
+  // Git blame the whole file in the gutter (WebStorm: right-click -> Annotate)
+  { "key": "shift+cmd+b", "command": "gitlens.toggleFileBlame", "when": "editorTextFocus" }
 ]

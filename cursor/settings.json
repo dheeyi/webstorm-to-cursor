@@ -1,5 +1,5 @@
 {
-  // ---- Fuente / editor (look tipo WebStorm) ----
+  // ---- Font / editor (WebStorm-like look) ----
   "editor.fontFamily": "'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
   "editor.fontSize": 14,
   "editor.lineHeight": 1.5,
@@ -12,22 +12,77 @@
   "editor.stickyScroll.enabled": true,
   "editor.minimap.enabled": false,
 
-  // ---- Autosave (WebStorm guarda solo) ----
+  // ---- Autosave (WebStorm saves automatically) ----
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
 
-  // ---- Workbench ----
+  // ---- Workbench (full WebStorm New UI look) ----
   "workbench.colorTheme": "Default Dark Modern",
+  "workbench.iconTheme": "material-icon-theme",
   "workbench.list.smoothScrolling": true,
   "workbench.editor.showTabs": "multiple",
   "explorer.confirmDragAndDrop": false,
   "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.hideUnchangedRegions.contextLineCount": 3,
+  "diffEditor.hideUnchangedRegions.minimumLineCount": 3,
+  "diffEditor.hideUnchangedRegions.revealLineCount": 20,
 
-  // ---- No sobrescribir formato al guardar por defecto ----
-  "editor.formatOnSave": false,
+  // ---- Format on save with Prettier + ESLint fix (like WebStorm "Actions on Save") ----
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit",
+  },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "eslint.run": "onType",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+  ],
 
-  // Ver README: para el look Darcula real instalar un tema JetBrains + la fuente JetBrains Mono.
-  "window.autoDetectColorScheme": false
+  // ---- Error Lens (inline errors, IDE-style) ----
+  "errorLens.enabled": true,
+
+  // ---- WebStorm-like behavior ----
+  // Permanent tabs (WebStorm doesn't use italic "preview" tabs)
+  "workbench.editor.enablePreview": false,
+  // Auto-update imports when moving/renaming files
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  // Jump straight to the definition (like WebStorm's Ctrl+B)
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  // Parameter/type inlay hints (like WebStorm)
+  "editor.inlayHints.enabled": "on",
+  // Rename opening/closing tag together
+  "editor.linkedEditing": true,
+  // Keep the cursor with a vertical margin (WebStorm scrolloff)
+  "editor.cursorSurroundingLines": 8,
+  // Also search symbols in Quick Open (Cmd+P)
+  "search.quickOpen.includeSymbols": true,
+  // 3-way merge editor for conflicts
+  "git.mergeEditor": true,
+  // Don't collapse nested folders (WebStorm shows them separately)
+  "explorer.compactFolders": false,
+  // Type to filter/navigate inside trees (type-to-search workaround)
+  "workbench.list.typeNavigationMode": "automatic",
+  // Highlight the open file in the explorer (like WebStorm)
+  "explorer.autoReveal": true,
+
+  // ---- Integrated terminal ----
+  "terminal.integrated.fontFamily": "'JetBrains Mono', Menlo, monospace",
+  "terminal.integrated.fontSize": 13,
+  "terminal.integrated.scrollback": 10000,
+
+  "window.autoDetectColorScheme": false,
+  "diffEditor.hideUnchangedRegions.enabled": true,
 }

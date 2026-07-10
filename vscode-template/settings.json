@@ -1,0 +1,54 @@
+{
+  "quickCommandButtons.buttons": [
+    {
+      "name": "$(rocket) Run",
+      "color": "#4CAF50",
+      "shortcut": "r",
+      "group": [
+        {
+          "name": "$(rocket) Metro",
+          "command": "npm start",
+          "shortcut": "m",
+          "terminalName": "Metro"
+        },
+        {
+          "name": "$(device-mobile) iOS",
+          "command": "npm run ios",
+          "shortcut": "i",
+          "terminalName": "iOS"
+        },
+        {
+          "name": "$(device-mobile) Android",
+          "command": "npm run android",
+          "shortcut": "a",
+          "terminalName": "Android"
+        }
+      ]
+    },
+    {
+      "name": "$(checklist) Checks",
+      "color": "#FF9800",
+      "shortcut": "c",
+      "group": [
+        {
+          "name": "$(beaker) Test",
+          "command": "npm test",
+          "shortcut": "t",
+          "terminalName": "Test"
+        },
+        {
+          "name": "$(check) Types",
+          "command": "npm run typecheck",
+          "shortcut": "y",
+          "terminalName": "Typecheck"
+        },
+        {
+          "name": "$(checklist) Lint",
+          "command": "npm run lint",
+          "shortcut": "l",
+          "terminalName": "Lint"
+        }
+      ]
+    }
+  ]
+}
